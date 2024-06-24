@@ -51,7 +51,7 @@ def percolation_sim(N: int = 20, P: float = 0.6) -> (np.typing.NDArray[Any], lis
 
     return grid, clusters
 
-if __name__ == "__main__":
+def perc01():
     N=20  # Lattice size (square)
     P=0.5 # Site occupation probability
 
@@ -95,3 +95,40 @@ if __name__ == "__main__":
             sys.stdout.write("\033[K")  # Clear the line
      
         ax.clear()
+
+def perc02():
+    """ Plot probability of percolation vs site occupation probability for a 2x2 lattice
+    """
+    NRUNS = 1000
+    N = 2
+    NDIV = 25
+
+    results = []
+    for P in np.linspace(0, 1, NDIV):
+        nPERC = 0
+        for _ in range(NRUNS):
+            grid, clusters = percolation_sim(N, P)
+            for i,c in enumerate(clusters):
+                if percolates(c, N): nPERC+=1
+
+        prob = nPERC / NRUNS
+        results.append((P, prob, np.sqrt(prob * (1 - prob) / NRUNS)))
+
+    ps, probs, errors = zip(*results)
+    plt.errorbar(ps, probs, yerr=errors, fmt='o', label='Numerical calculation')
+
+    if N == 2:
+        exact_p = np.linspace(0, 1, 100)
+        exact_prob = exact_p ** 2 * (2 - exact_p ** 2)
+        plt.plot(exact_p, exact_prob, label='Exact solution')
+
+    plt.xlabel('Site occupation probability')
+    plt.ylabel('P(p, 2)')
+    plt.title('Percolation probability')
+    plt.legend()
+    plt.show()
+
+
+if __name__ == "__main__":
+    perc01()
+    #perc02()
