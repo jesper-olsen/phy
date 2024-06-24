@@ -29,7 +29,7 @@ def cluster_index(clusters: list, xy: int) -> int:
             return i
     return len(clusters)
 
-def percolation_sim(N: int = 20, P: float = 0.6) -> np.typing.NDArray[Any]:
+def percolation_sim(N: int = 20, P: float = 0.6) -> (np.typing.NDArray[Any], list):
     grid = np.random.binomial(1, P, (N, N)) # Generate the configuration
     clusters = []
     for i, j in ((i,j) for (i,j) in  product(range(N), range(N)) if grid[i,j]>0):
@@ -49,17 +49,7 @@ def percolation_sim(N: int = 20, P: float = 0.6) -> np.typing.NDArray[Any]:
                 del clusters[i1]
                 i0 = cluster_index(clusters, p0)
 
-    #single out percolating clusters
-    n_percolating=0
-    for i,c in enumerate(clusters):
-        if percolates(c, N):
-            n_percolating+=1
-        for xy in c:
-            grid[xy]=i+1
-
-    print(f"#clusters: {len(clusters)}; #percolating: {n_percolating}")
-
-    return grid
+    return grid, clusters
 
 if __name__ == "__main__":
     N=20  # Lattice size (square)
@@ -67,10 +57,17 @@ if __name__ == "__main__":
 
     fig, ax = plt.subplots()
     while True:
-        grid = percolation_sim(N, P)
+        grid, clusters = percolation_sim(N, P)
+        #single out percolating clusters
+        n_percolating=0
+        for i,c in enumerate(clusters):
+            if percolates(c, N):
+                n_percolating+=1
+            for xy in c:
+                grid[xy]=i+1
+        print(f"#clusters: {len(clusters)}; #percolating: {n_percolating}")
         #print(grid)
-        ax.clear()
-        
+
         bcolours=['white']
         ecolours=['lightblue', 'pink', 'lightgreen', 'yellow', 'cyan', 'magenta',
                  'black', 'gray', 'orange', 'red', 'blue', 'brown', 'purple', 'darkblue', 
@@ -83,13 +80,18 @@ if __name__ == "__main__":
         bounds = list(range(len(colours) + 1))
         norm = mcolors.BoundaryNorm(bounds, cmap.N)
 
+        ax.clear()
         ax.imshow(grid, cmap=cmap, norm=norm)
         ax.set_title('Percolation grid', fontsize=16, color='lightblue')
         ax.set_xticks([])
         ax.set_yticks([])
         plt.draw()
         plt.pause(1)
-        s=input("Press Enter to continue...")
-        if s.strip()=='q': sys.exit(1)
+        s=input("Press Enter to continue/q to quit...")
+        if s.strip()=='q': 
+            sys.exit(1)
+        else:
+            sys.stdout.write("\033[F")  # Move the cursor up one line
+            sys.stdout.write("\033[K")  # Clear the line
      
         ax.clear()
