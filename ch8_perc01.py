@@ -49,33 +49,47 @@ def percolation_sim(N: int = 20, P: float = 0.6) -> np.typing.NDArray[Any]:
                 del clusters[i1]
                 i0 = cluster_index(clusters, p0)
 
-    print(f"#clusters: {len(clusters)}")
     #single out percolating clusters
-    for c in clusters:
+    n_percolating=0
+    for i,c in enumerate(clusters):
         if percolates(c, N):
-            for xy in c:
-                grid[xy]=2
+            n_percolating+=1
+        for xy in c:
+            grid[xy]=i+1
+
+    print(f"#clusters: {len(clusters)}; #percolating: {n_percolating}")
+
     return grid
 
 if __name__ == "__main__":
-    N=100  # Lattice size (square)
-    P=0.6 #Site occupation probability
+    N=20  # Lattice size (square)
+    P=0.5 # Site occupation probability
 
     fig, ax = plt.subplots()
     while True:
         grid = percolation_sim(N, P)
+        #print(grid)
         ax.clear()
-        cmap = mcolors.ListedColormap(['white', 'lightblue', 'pink'])
-        bounds = [0, 1, 2, 3]
+        
+        bcolours=['white']
+        ecolours=['lightblue', 'pink', 'lightgreen', 'yellow', 'cyan', 'magenta',
+                 'black', 'gray', 'orange', 'red', 'blue', 'brown', 'purple', 'darkblue', 
+                 'green', 'darkgreen', 'lightgray', 'darkgray', 'gold']
+        colours = bcolours + ecolours
+        n_clusters = len(set(grid.flatten())) 
+        if n_clusters > len(colours):
+            colours += [ecolours[i%len(ecolours)] for i in range(n_clusters-len(ecolours))]
+        cmap = mcolors.ListedColormap(colours)
+        bounds = list(range(len(colours) + 1))
         norm = mcolors.BoundaryNorm(bounds, cmap.N)
+
         ax.imshow(grid, cmap=cmap, norm=norm)
         ax.set_title('Percolation grid', fontsize=16, color='lightblue')
         ax.set_xticks([])
         ax.set_yticks([])
         plt.draw()
-        plt.pause(2)
+        plt.pause(1)
         s=input("Press Enter to continue...")
-        print(f"s={s}")
         if s.strip()=='q': sys.exit(1)
      
         ax.clear()
