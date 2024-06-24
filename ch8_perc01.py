@@ -5,15 +5,13 @@ from typing import Generator, Tuple, Any
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from itertools import product
-
-def are_neighbours(t: tuple, u: tuple) -> bool:
-    return (t[0] == u[0] and abs(t[1] - u[1]) == 1) or \
-           (t[1] == u[1] and abs(t[0] - u[0]) == 1) 
+import sys
 
 def neighbours(grid: np.typing.NDArray[Any], xy: (int,int)) -> Generator[Tuple[int, int], None, None]:
+    """ neghbours: left-right, up-down  """
     N1, N2 = grid.shape
     g=((di, dj) for (di,dj) in product([-1, 0, 1], repeat=2))
-    g=((di,dj) for (di,dj) in g if di!=0 or dj!=0) 
+    g=((di,dj) for (di,dj) in g if (di!=0 or dj!=0) and (di==0 or dj==0)) # left-right or up-down
     g=((xy[0]+di,xy[1]+dj) for (di,dj) in g)
     g=((ni,nj) for (ni,nj) in g if 0<=ni<N1 and 0<=nj<N2)
     g=(xy for xy in g if grid[xy]!=0) # occupied neighbours
@@ -60,7 +58,7 @@ def percolation_sim(N: int = 20, P: float = 0.6) -> np.typing.NDArray[Any]:
     return grid
 
 if __name__ == "__main__":
-    N=20  # Lattice size (square)
+    N=100  # Lattice size (square)
     P=0.6 #Site occupation probability
 
     fig, ax = plt.subplots()
@@ -76,4 +74,8 @@ if __name__ == "__main__":
         ax.set_yticks([])
         plt.draw()
         plt.pause(2)
+        s=input("Press Enter to continue...")
+        print(f"s={s}")
+        if s.strip()=='q': sys.exit(1)
+     
         ax.clear()
