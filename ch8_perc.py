@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from itertools import product
 import sys
+import argparse
 
 def neighbours(grid: np.typing.NDArray[Any], xy: (int,int)) -> Generator[Tuple[int, int], None, None]:
     """ neghbours: left-right, up-down  """
@@ -103,20 +104,18 @@ def perc02():
         (fig 8.2)
     """
     NRUNS = 1000
-    N = 2
+    N = 2   
     NDIV = 25
 
     results = []
-    for P in np.linspace(0, 1, NDIV):
+    for P in np.linspace(0, 1, NDIV): # range of occupation probabilities explored
         nPERC = 0
-        for _ in range(NRUNS):
+        for _ in range(NRUNS): # trials with same P
             grid, clusters = percolation_sim(N, P)
             for i,c in enumerate(clusters):
                 if percolates(c, N): nPERC+=1
-
         prob = nPERC / NRUNS
         results.append((P, prob, np.sqrt(prob * (1 - prob) / NRUNS)))
-
     ps, probs, errors = zip(*results)
     plt.errorbar(ps, probs, yerr=errors, fmt='o', label='Numerical calculation')
 
@@ -132,5 +131,19 @@ def perc02():
     plt.show()
 
 if __name__ == "__main__":
-    perc01()
-    #perc02()
+    parser = argparse.ArgumentParser(description="A simulation of a percolating system.")
+    parser.add_argument(
+        "-ex",
+        type=int,
+        choices=[1, 2],
+        default = 1,
+        required=False,
+        help="Example number (1: visualise percolation on a square lattice, 2: Percolation probability)",
+    )
+    args = parser.parse_args()
+    EX = args.ex
+
+    match EX:
+        case 1: perc01()
+        case 2: perc02()
+        case _: print("No such.");
