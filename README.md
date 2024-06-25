@@ -5,8 +5,8 @@ Examples from [1] - translated to python.
 
 References:
 -----------
-[1] [Applied Computational Physics, Joseph F. Boudreau | Eric S. Swanson]
-](https://global.oup.com/booksites/content/9780198708636/)
+[1] ["Applied Computational Physics", Joseph F. Boudreau & Eric S. Swanson]
+(https://global.oup.com/booksites/content/9780198708636/)
 
 Run:
 ----
