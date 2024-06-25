@@ -52,7 +52,9 @@ def percolation_sim(N: int = 20, P: float = 0.6) -> (np.typing.NDArray[Any], lis
     return grid, clusters
 
 def perc01():
-    N=20  # Lattice size (square)
+    """Visualise percolation on square lattice
+    """
+    N=100  # Lattice size (square)
     P=0.5 # Site occupation probability
 
     fig, ax = plt.subplots()
@@ -97,7 +99,8 @@ def perc01():
         ax.clear()
 
 def perc02():
-    """ Plot probability of percolation vs site occupation probability for a 2x2 lattice
+    """ Plot probability of percolation vs site occupation probability for a 2x2 lattice.
+        (fig 8.2)
     """
     NRUNS = 1000
     N = 2
@@ -127,7 +130,6 @@ def perc02():
     plt.title('Percolation probability')
     plt.legend()
     plt.show()
-
 
 if __name__ == "__main__":
     perc01()

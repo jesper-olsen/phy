@@ -4,11 +4,9 @@ from scipy.special import expit
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Button
 
-# Define the parameters and their ranges
 W = 0.8
 THETA = 0.0
 
-# Define the sigmoid function
 def sigmoid(x, W, THETA):
     return (np.exp(W*x + THETA) - np.exp(-(W*x + THETA))) / (np.exp(W*x + THETA) + np.exp(-(W*x + THETA)))
 
@@ -26,7 +24,6 @@ ax.plot(x_values, y_values, 'bo', label='Data with noise')
 # Initial plot of the sigmoid function
 line, = ax.plot(x_values, sigmoid(x_values, W, THETA), 'r-', linewidth=2, label='Sigmoid fit')
 
-# Update the parameters and replot
 def update_plot(event):
     global W, THETA
     

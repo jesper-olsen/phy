@@ -1,3 +1,6 @@
+#PERC03: plots the distribution of cluster sizes for a one-dimensional lattice, comparing results from simulation with the theoretical curve. 
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 import sys

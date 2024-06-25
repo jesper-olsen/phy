@@ -21,7 +21,7 @@ class IsingModel:
         self.NX = NX     # x-dimension
         self.NY = NY
         self.tau = tau   # temperature
-        self.eps = -1    # Ferromagnet. Not Antiferromagnet.
+        self.eps = -1    # ferromagnet. Not antiferromagnet.
         self.array = np.zeros((NX, NY), dtype=int)
         self.m = 0       # magnetisation
         self.u = 0.0     # internal energy
