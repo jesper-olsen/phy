@@ -32,7 +32,7 @@ options:
 #clusters: 401; #percolating: 0
 Press Enter to continue/q to quit...q
 ```
-![PNG](https://raw.githubusercontent.com/jesper-olsen/phy/Assets/perc01.png)
+![PNG](https://raw.githubusercontent.com/jesper-olsen/phy/main/Assets/perc01.png)
 
 ```
 ```
