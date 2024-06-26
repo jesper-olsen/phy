@@ -28,7 +28,7 @@ def cluster_index(clusters: list, xy: int) -> int:
     for i, cluster in enumerate(clusters):
         if xy in cluster:
             return i
-    return len(clusters)
+    return -1
 
 def percolation_sim(N: int = 20, P: float = 0.6) -> (np.typing.NDArray[Any], list):
     grid = np.random.binomial(1, P, (N, N)) # Generate the configuration
@@ -38,12 +38,12 @@ def percolation_sim(N: int = 20, P: float = 0.6) -> (np.typing.NDArray[Any], lis
         i0 = cluster_index(clusters, p0)
         for p1 in neighbours(grid, p0):
             i1 = cluster_index(clusters, p1)
-            if i0 == len(clusters) and i1 == len(clusters):
+            if i0 == -1 and i1 == -1:
                 clusters += [ set([p0,p1]) ]
                 i0 = cluster_index(clusters, p0)
-            elif i0 != i1 and i0 == len(clusters):
+            elif i0 != i1 and i0 == -1:
                 clusters[i1].add(p0)
-            elif i0 != i1 and i1 == len(clusters):
+            elif i0 != i1 and i1 == -1:
                 clusters[i0].add(p1)
             elif i0 != i1:
                 clusters[i0].update(clusters[i1]) 
