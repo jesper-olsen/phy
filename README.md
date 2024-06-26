@@ -1,12 +1,11 @@
 APPLIED COMPUTATIONAL PHYSICS
 ===============
 
-Examples from [1] - translated to python.
+Physics simulations from [1] - Python rather than C++.
 
 References:
 -----------
-[1] ["Applied Computational Physics", Joseph F. Boudreau & Eric S. Swanson]
-(https://global.oup.com/booksites/content/9780198708636/)
+[1] ["Applied Computational Physics", Joseph F. Boudreau & Eric S. Swanson](https://global.oup.com/booksites/content/9780198708636/)
 
 Run:
 ----
